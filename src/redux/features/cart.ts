@@ -52,7 +52,7 @@ export const cartSlice = createSlice({
           return { ...item };
         });
       }
-      localStorage.setItem("cart_products", JSON.stringify(state.cart_products));
+      setLocalStorage("cart_products", state.cart_products);
     },
 
     increment: (state) => {
@@ -64,15 +64,19 @@ export const cartSlice = createSlice({
           ? state.orderQuantity - 1
           : (state.orderQuantity = 1);
     },
-    quantityDecrement: (state, action: PayloadAction<IProduct>) => {
-      state.cart_products.map((item) => {
-        if (item.id === action.payload.id) {
-          if (item.orderQuantity && item.orderQuantity > 1) {
-            item.orderQuantity = item.orderQuantity - 1;
-          }
+    quantityIncrement: (state, action: PayloadAction<{ id: number }>) => {
+      state.cart_products.forEach((item) => {
+        if (item.id === action.payload.id && item.orderQuantity !== undefined && item.orderQuantity < item.quantity) {
+          item.orderQuantity += 1;
         }
-        notifyError(`${action.payload.title} Quantity Decrement`);
-        return { ...item };
+      });
+      setLocalStorage("cart_products", state.cart_products);
+    },
+    quantityDecrement: (state, action: PayloadAction<IProduct>) => {
+      state.cart_products.forEach((item) => {
+        if (item.id === action.payload.id && item.orderQuantity !== undefined && item.orderQuantity > 1) {
+          item.orderQuantity -= 1;
+        }
       });
       setLocalStorage("cart_products", state.cart_products);
     },
@@ -87,10 +91,15 @@ export const cartSlice = createSlice({
       state.orderQuantity = 1;
     },
     clearCart: (state) => {
-      const isClearCart = window.confirm('Are you sure you want to remove all items ?');
+      const isClearCart = typeof window !== "undefined" && window.confirm("Are you sure you want to remove all items?");
       if (isClearCart) {
         state.cart_products = [];
       }
+      setLocalStorage("cart_products", state.cart_products);
+    },
+    /** Clear cart without confirmation (e.g. after order placement). */
+    clearCartSilent: (state) => {
+      state.cart_products = [];
       setLocalStorage("cart_products", state.cart_products);
     },
     getCartProducts:(state) => {
@@ -104,9 +113,11 @@ export const {
   increment,
   decrement,
   remove_product,
+  quantityIncrement,
   quantityDecrement,
   initialOrderQuantity,
   clearCart,
+  clearCartSilent,
   getCartProducts,
 } = cartSlice.actions;
 

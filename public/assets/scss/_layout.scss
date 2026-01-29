@@ -145,7 +145,7 @@
         }
     }
     .block-three {
-        background: #D3FF76;
+        background: $color-one;
         .tag {
             font-size: 13px;
             letter-spacing: 1px;
@@ -332,7 +332,7 @@
         height: 39%;
         left: 0;
         top:0;
-        background: #EDF8EB;
+        background: $light-bg-one;
         border-radius: 30px 30px 0 0;
         z-index: -1;
     }
@@ -477,7 +477,7 @@
             padding: 0 15px;
             .chart-inner {
                 width: 120px;
-                background: #196164;
+                background: $color-two;
             }
         }
     }
@@ -687,7 +687,7 @@
 // Text Feature Five
 .text-feature-five {
     .bg-wrapper {
-        background: #FFF2AC;
+        background: $color-four;
     }
     li {
         display: inline-block;
@@ -705,7 +705,7 @@
             width: 28px;
             height: 28px;
             border-radius: 50%;
-            background: #FFF2AC;
+            background: $color-four;
             left: 10px;
             top:7px;
             @include transition(0.2s);
@@ -823,7 +823,7 @@
             mix-blend-mode: overlay;
             opacity: 0.8;
             &:hover {
-                color: #C5FF4A;
+                color: $color-one;
                 opacity: 1;
                 mix-blend-mode: normal;
             }
@@ -952,7 +952,7 @@
         table {
             font-size: 18px;
             tr td:first-child {
-                color: rgba($color: #244034, $alpha: 0.6);
+                color: rgba($color: $color-three, $alpha: 0.6);
                 padding: 13px 0;
             }
             tr td:last-child {
@@ -1045,21 +1045,21 @@
 }
 .pricing-nav {
     .nav {
-        border: 2px solid #186560;
+        border: 2px solid $color-two;
         border-radius: 10px;
         overflow: hidden;
         .nav-link {
             width: 150px;
             height: 61px;
             font-weight: 500;
-            color: #186560;
+            color: $color-two;
             background: transparent;
             padding: 0;
             margin: 0;
             border: 0;
             border-radius: 0;
             &.active {
-                background: #186560;
+                background: $color-two;
                 color: #fff;
             }
         }

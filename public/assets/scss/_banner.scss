@@ -429,7 +429,7 @@
     width: 100%;
     height: 100%;
     z-index: -1;
-    background: #174034;
+    background: $color-three;
     mix-blend-mode: darken;
   }
   .title-one h2 {
@@ -439,7 +439,7 @@
     width: 200px;
     height: 200px;
     padding: 16px;
-    background: #ffe86b;
+    background: $color-one;
     &:hover {
       transform: rotate(15deg);
     }
@@ -450,7 +450,7 @@
 }
 // Fancy Banner Four
 .fancy-banner-four {
-  background: #dceff0;
+  background: $cyan;
   z-index: 1;
   &:before {
     content: '';
@@ -546,7 +546,7 @@
     width: 100%;
     height: 100%;
     z-index: -1;
-    background: #113d2f;
+    background: $color-three;
     mix-blend-mode: hard-light;
   }
   h2 {
@@ -557,7 +557,7 @@
     width: 200px;
     height: 200px;
     padding: 22px;
-    background: #ffe86b;
+    background: $color-one;
     &:hover {
       transform: rotate(15deg);
     }
@@ -576,7 +576,7 @@
     width: 200px;
     height: 200px;
     padding: 22px;
-    background: #ffe86b;
+    background: $color-one;
     &:hover {
       transform: rotate(15deg);
     }
@@ -667,7 +667,7 @@
 // Fancy Banner Eight
 .fancy-banner-eight {
   .bg-wrapper {
-    background: #f3f8f7;
+    background: $light-bg-one;
     padding: 30px 75px 0;
   }
   .media-wrapper {
@@ -740,7 +740,7 @@
       padding-top: 100px;
     }
     .bottom-border {
-      border-bottom: 1px dashed #37665c;
+      border-bottom: 1px dashed $color-two;
     }
     form button {
       background: $color-four;
@@ -837,7 +837,7 @@
 .inner-banner-two {
   z-index: 1;
   .pager {
-    border-bottom: 1px solid #0a4020;
+    border-bottom: 1px solid $color-two;
     padding-bottom: 2px;
     li {
       color: #000;

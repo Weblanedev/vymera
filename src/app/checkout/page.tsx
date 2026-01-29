@@ -1,7 +1,7 @@
 import React from "react";
 import { Metadata } from "next";
 import Wrapper from "@/layout/wrapper";
-import HeaderOne from "@/layout/header/header-one";
+import HeaderThree from "@/layout/header/header-three";
 import CheckoutArea from "@/components/checkout/checkout-area";
 
 export const metadata: Metadata = {
@@ -13,7 +13,7 @@ const CheckoutPage = () => {
     <Wrapper>
       <div className="main-page-wrapper">
         {/* header start */}
-        <HeaderOne />
+        <HeaderThree />
         {/* header end */}
         <main>
           {/* checkout area start */}

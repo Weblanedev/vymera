@@ -1,28 +1,28 @@
-import React from 'react';
-import { Metadata } from 'next';
-import Wrapper from '@/layout/wrapper';
-import HeaderTwo from '@/layout/header/header-two';
-import BreadcrumbOne from '@/components/breadcrumb/breadcrumb-one';
-import FooterThree from '@/layout/footer/footer-three';
-import blog_bg from '@/assets/images/media/img_32.jpg';
-import FancyBannerThree from '@/components/fancy-banner/fancy-banner-three';
-import BlogDetailsArea from '@/components/blogs/blog-details/blog-details-area';
-import shape from '@/assets/images/shape/shape_35.svg';
-import blog_data from '@/data/blog-data';
-import NewsletterBanner from '@/components/newsletter/newsletter-banner';
+import React from "react";
+import { Metadata } from "next";
+import Wrapper from "@/layout/wrapper";
+import HeaderThree from "@/layout/header/header-three";
+import BreadcrumbOne from "@/components/breadcrumb/breadcrumb-one";
+import FooterThree from "@/layout/footer/footer-three";
+import blog_bg from "@/assets/images/media/img_32.jpg";
+import FancyBannerThree from "@/components/fancy-banner/fancy-banner-three";
+import BlogDetailsArea from "@/components/blogs/blog-details/blog-details-area";
+import shape from "@/assets/images/shape/shape_35.svg";
+import blog_data from "@/data/blog-data";
+import NewsletterBanner from "@/components/newsletter/newsletter-banner";
 
 export const metadata: Metadata = {
-  title: 'Blog Details Page',
+  title: "Blog Details Page",
 };
 
 // const BlogDetailsPage = ({ params }: { params: { id: string } }) => {
 const BlogDetailsPage = ({ params }: any) => {
-  const blog = blog_data.find(b => Number(b.id) === Number(params.id))!;
+  const blog = blog_data.find((b) => Number(b.id) === Number(params.id))!;
   return (
     <Wrapper>
       <div className="main-page-wrapper">
         {/* header start */}
-        <HeaderTwo />
+        <HeaderThree />
         {/* header end */}
         <main>
           {/* breadcrumb start */}

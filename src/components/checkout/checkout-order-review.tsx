@@ -12,10 +12,10 @@ const CheckoutOrderReview = () => {
 
   useEffect(() => {
     if (typeof window !== "undefined" && window.localStorage) {
-      dispatch(getCartProducts())
+      dispatch(getCartProducts());
     }
   }, [dispatch]);
-  
+
   return (
     <>
       {cart_products.length === 0 && (
@@ -29,10 +29,14 @@ const CheckoutOrderReview = () => {
             {cart_products.map((item) => (
               <tr key={item.id}>
                 <th>
-                  <span>{item.title}</span>
+                  <span>
+                    {item.title} × {item.orderQuantity ?? 1}
+                  </span>
                 </th>
                 <td>
-                  <span>${item.price}</span>
+                  <span>
+                    ${(item.price * (item.orderQuantity ?? 1)).toFixed(2)}
+                  </span>
                 </td>
               </tr>
             ))}

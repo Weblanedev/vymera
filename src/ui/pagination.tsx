@@ -1,4 +1,4 @@
-'use client'
+"use client";
 import React from "react";
 import ReactPaginate from "react-paginate";
 
@@ -9,6 +9,9 @@ type IProps = {
 };
 
 const Pagination = ({ handlePageClick, pageCount }: IProps) => {
+  if (typeof ReactPaginate !== "function") {
+    return null;
+  }
   return (
     <ReactPaginate
       className="style-none d-flex align-items-center"

@@ -1,10 +1,16 @@
 
 export const animationCreate = () => {
   if (typeof window !== "undefined") {
-    import("wowjs").then((module) => {
-      const WOW = module.default;
-      new WOW.WOW({live: false}).init()
-    });
+    import("wowjs")
+      .then((module) => {
+        const WOW = module.default;
+        if (WOW && typeof WOW === "function") {
+          new WOW({ live: false }).init();
+        }
+      })
+      .catch(() => {
+        // wowjs failed to load; animations are optional
+      });
   }
 };
 

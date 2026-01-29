@@ -1,7 +1,7 @@
 import React from "react";
 import { Metadata } from "next";
 import Wrapper from "@/layout/wrapper";
-import HeaderOne from "@/layout/header/header-one";
+import HeaderThree from "@/layout/header/header-three";
 import FancyBannerThree from "@/components/fancy-banner/fancy-banner-three";
 import FooterTwo from "@/layout/footer/footer-two";
 import BreadcrumbTwo from "@/components/breadcrumb/breadcrumb-two";
@@ -13,7 +13,6 @@ import FancyBannerFive from "@/components/fancy-banner/fancy-banner-five";
 import FaqSectionOne from "@/components/faq/faq-section-one";
 import HomeBlogs from "@/components/blogs/home-blogs";
 
-
 export const metadata: Metadata = {
   title: "About Us 2 Page",
 };
@@ -23,7 +22,7 @@ const AboutUsTwoPage = () => {
     <Wrapper>
       <div className="main-page-wrapper">
         {/* header start */}
-        <HeaderOne />
+        <HeaderThree />
         {/* header end */}
         <main>
           {/* breadcrumb start */}
@@ -37,15 +36,15 @@ const AboutUsTwoPage = () => {
           {/* breadcrumb end */}
 
           {/* text feature three area start */}
-          <TextFeatureThree cls="text-feature-seven mt-160 lg-mt-80 pb-200 lg-pb-120"/>
+          <TextFeatureThree cls="text-feature-seven mt-160 lg-mt-80 pb-200 lg-pb-120" />
           {/* text feature three area end */}
 
           {/* text feature three area start */}
-          <TextFeatureTwo/>
+          <TextFeatureTwo />
           {/* text feature three area end */}
 
           {/* block feature four start */}
-          <BlockFeatureFour/>
+          <BlockFeatureFour />
           {/* block feature four end */}
 
           {/* feedback section four start */}
@@ -53,15 +52,15 @@ const AboutUsTwoPage = () => {
           {/* feedback section four end */}
 
           {/* fancy banner five start */}
-          <FancyBannerFive/>
+          <FancyBannerFive />
           {/* fancy banner five end */}
 
           {/* faq section start */}
-          <FaqSectionOne/>
+          <FaqSectionOne />
           {/* faq section end */}
 
           {/* blogs start */}
-          <HomeBlogs cls="mt-150 lg-mt-80 pb-150 lg-pb-80"/>
+          <HomeBlogs cls="mt-150 lg-mt-80 pb-150 lg-pb-80" />
           {/* blogs end */}
 
           {/* fancy banner three start */}

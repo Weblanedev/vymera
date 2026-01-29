@@ -1,7 +1,7 @@
 import React from "react";
 import { Metadata } from "next";
 import Wrapper from "@/layout/wrapper";
-import HeaderTwo from "@/layout/header/header-two";
+import HeaderThree from "@/layout/header/header-three";
 import breadcrumb_bg from "@/assets/images/media/img_26.jpg";
 import FancyBannerThree from "@/components/fancy-banner/fancy-banner-three";
 import FooterTwo from "@/layout/footer/footer-two";
@@ -16,7 +16,7 @@ const ProjectDetailsPage = () => {
     <Wrapper>
       <div className="main-page-wrapper">
         {/* header start */}
-        <HeaderTwo />
+        <HeaderThree />
         {/* header end */}
         <main>
           {/* breadcrumb start */}
@@ -38,7 +38,7 @@ const ProjectDetailsPage = () => {
           {/* breadcrumb end */}
 
           {/* project details area start */}
-          <ProjectDetailsArea/>
+          <ProjectDetailsArea />
           {/* project details area end */}
 
           {/* fancy banner three start */}

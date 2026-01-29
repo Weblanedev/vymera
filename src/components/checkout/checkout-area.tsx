@@ -1,228 +1,261 @@
-'use client'
-import React, { useState } from 'react';
+"use client";
+
+import React, { useState, useCallback } from "react";
+import Link from "next/link";
 import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import * as yup from "yup";
-import dynamic from 'next/dynamic';
-// internal
-import ErrorMsg from '../common/error-msg';
-import CheckoutLoginForm from './checkout-login-form';
-import CheckoutCouponForm from './checkout-coupon-form';
-import CheckoutOrderReview from './checkout-order-review';
-
+import { useRouter } from "next/navigation";
+import { useAppDispatch, useAppSelector } from "@/redux/hook";
+import { getCartProducts } from "@/redux/features/cart";
+import { clearCartSilent } from "@/redux/features/cart";
+import { notifySuccess } from "@/utils/toast";
+import ErrorMsg from "../common/error-msg";
+import CheckoutOrderReview from "./checkout-order-review";
+import OrderProcessingModal from "./order-processing-modal";
 
 type FormData = {
-  firstName: string;
-  lastName: string;
-  company: string;
-  country: string;
-  address: string;
-  city: string;
-  state: string;
-  zipCode: string;
-  email: string;
-  phone: string;
-  orderNote?: string;
+  fullName: string;
+  deliveryAddress: string;
+  phone?: string;
+  email?: string;
+  // Payment (UI only)
+  nameOnCard: string;
+  cardNumber: string;
+  cvv: string;
+  expiryMonth: string;
+  expiryYear: string;
 };
 
-const schema = yup.object().shape({
-  firstName: yup.string().required().label("First Name"),
-  lastName: yup.string().required().label("Last Name"),
-  company: yup.string().required().label("Company"),
-  country: yup.string().required().label("Country"),
-  address: yup.string().required().label("Address"),
-  city: yup.string().required().label("City"),
-  state: yup.string().required().label("State"),
-  zipCode: yup.string().required().label("Zip Code"),
-  email: yup.string().required().email().label("Email"),
-  phone: yup.string().required().min(4).label("Phone"),
-  orderNote: yup.string().label("Order Note"),
-});
+// Full name, delivery address, phone or email (at least one), payment fields (16-digit card, 3-digit CVV, expiry)
+const schema = yup
+  .object()
+  .shape({
+    fullName: yup.string().required("Full name is required").trim(),
+    deliveryAddress: yup
+      .string()
+      .required("Delivery address is required")
+      .trim(),
+    phone: yup.string().trim(),
+    email: yup.string().trim().email("Invalid email"),
+    nameOnCard: yup.string().required("Name on card is required").trim(),
+    cardNumber: yup
+      .string()
+      .required("Card number is required")
+      .matches(/^\d{16}$/, "Card number must be 16 digits"),
+    cvv: yup
+      .string()
+      .required("CVV is required")
+      .matches(/^\d{3}$/, "CVV must be 3 digits"),
+    expiryMonth: yup
+      .string()
+      .required("Expiry month is required")
+      .matches(/^(0[1-9]|1[0-2])$/, "Month must be 01–12"),
+    expiryYear: yup
+      .string()
+      .required("Expiry year is required")
+      .matches(/^\d{2}$|^\d{4}$/, "Year must be 2 or 4 digits"),
+  })
+  .test("contact", "Provide at least phone or email", function (value) {
+    const phone = (value?.phone ?? "").trim();
+    const email = (value?.email ?? "").trim();
+    return !!phone || !!email;
+  });
 
 const CheckoutArea = () => {
-  const [openLogin, setOpenLogin] = useState<boolean>(false);
-  const [openCoupon, setOpenCoupon] = useState<boolean>(false);
-  const [openPaymentType, setOpenPaymentType] = useState<string>('direct_bank');
+  const router = useRouter();
+  const dispatch = useAppDispatch();
+  const { cart_products } = useAppSelector((state) => state.cart);
+  const [showOrderModal, setShowOrderModal] = useState(false);
 
-  const { register, handleSubmit, reset, formState: { errors } } = useForm<FormData>({
+  const {
+    register,
+    handleSubmit,
+    formState: { errors, isValid },
+  } = useForm<FormData>({
     resolver: yupResolver(schema),
-  });
-  const onSubmit = handleSubmit((data) => {
-    alert(JSON.stringify(data))
-    reset()
+    mode: "onChange",
   });
 
+  const onOrderComplete = useCallback(() => {
+    dispatch(clearCartSilent());
+    setShowOrderModal(false);
+    router.push("/");
+    notifySuccess("Order placed successfully");
+  }, [dispatch, router]);
+
+  const onSubmit = handleSubmit(() => {
+    setShowOrderModal(true);
+  });
+
+  React.useEffect(() => {
+    if (typeof window !== "undefined" && window.localStorage) {
+      dispatch(getCartProducts());
+    }
+  }, [dispatch]);
+
+  const canPlaceOrder = cart_products.length > 0 && isValid;
 
   return (
     <div className="checkout-section light-bg pt-250 lg-pt-200 pb-100 sm-pb-50">
       <div className="container">
-        <div className="checkout-toggle-area mb-80 md-mb-60">
-          <p>Already have an account?
-            <button className="d-inline-block" data-bs-toggle="collapse" data-bs-target="#login-form" onClick={() => setOpenLogin(!openLogin)}>Click here to login.</button>
-          </p>
-          <div id="login-form" className={`collapse ${openLogin ? 'show' : ''}`}>
-            <p>Please enter your details below.</p>
-            <CheckoutLoginForm />
+        {cart_products.length === 0 && (
+          <div className="text-center py-5">
+            <p className="mb-3">Your cart is empty.</p>
+            <Link href="/#products" className="btn-ten tran3s">
+              Continue shopping
+            </Link>
           </div>
+        )}
 
-          <p>Have a promo code?
-            <button className="d-inline-block" data-bs-toggle="collapse" data-bs-target="#promo-code" onClick={() => setOpenCoupon(!openCoupon)}>Click to enter your code.</button>
-          </p>
-          <div id="promo-code" className={`collapse ${openCoupon ? 'show' : ''}`}>
-            <p>Please enter your promo code below.</p>
-            <CheckoutCouponForm />
-          </div>
-        </div>
-        <form onSubmit={onSubmit} className="checkout-form">
-          <div className="row">
-            <div className="col-lg-7">
-              <h2 className="main-title">Billign Details</h2>
-              <div className="user-profile-data">
-                <div className="row">
-                  <div className="col-lg-6">
-                    <div className='mb-55'>
-                      <input type="text" id='firstName' {...register("firstName")} placeholder="First Name*" className="single-input-wrapper" />
-                      <ErrorMsg msg={errors.firstName?.message!} />
+        {cart_products.length > 0 && (
+          <form onSubmit={onSubmit} className="checkout-form">
+            <div className="row">
+              <div className="col-lg-7">
+                <h2 className="main-title">Checkout</h2>
+                <div className="user-profile-data">
+                  <h5 className="mb-3">Delivery & contact</h5>
+                  <div className="row">
+                    <div className="col-12">
+                      <div className="mb-3">
+                        <input
+                          type="text"
+                          {...register("fullName")}
+                          placeholder="Full name *"
+                          className="single-input-wrapper"
+                        />
+                        <ErrorMsg msg={errors.fullName?.message ?? ""} />
+                      </div>
+                    </div>
+                    <div className="col-12">
+                      <div className="mb-3">
+                        <textarea
+                          {...register("deliveryAddress")}
+                          placeholder="Delivery address *"
+                          className="single-input-wrapper"
+                          rows={2}
+                        />
+                        <ErrorMsg msg={errors.deliveryAddress?.message ?? ""} />
+                      </div>
+                    </div>
+                    <div className="col-md-6">
+                      <div className="mb-3">
+                        <input
+                          type="tel"
+                          {...register("phone")}
+                          placeholder="Phone"
+                          className="single-input-wrapper"
+                        />
+                        <ErrorMsg msg={errors.phone?.message ?? ""} />
+                      </div>
+                    </div>
+                    <div className="col-md-6">
+                      <div className="mb-3">
+                        <input
+                          type="email"
+                          {...register("email")}
+                          placeholder="Email"
+                          className="single-input-wrapper"
+                        />
+                        <ErrorMsg msg={errors.email?.message ?? ""} />
+                      </div>
                     </div>
                   </div>
-                  <div className="col-lg-6">
-                    <div className='mb-55'>
-                      <input type="text" id='lastName' {...register("lastName")} placeholder="Last Name*" className="single-input-wrapper" />
-                      <ErrorMsg msg={errors.lastName?.message!} />
+
+                  <h5 className="mb-3 mt-4">
+                    Payment (UI only – no real charge)
+                  </h5>
+                  <div className="row">
+                    <div className="col-12">
+                      <div className="mb-3">
+                        <input
+                          type="text"
+                          {...register("nameOnCard")}
+                          placeholder="Name on card *"
+                          className="single-input-wrapper"
+                        />
+                        <ErrorMsg msg={errors.nameOnCard?.message ?? ""} />
+                      </div>
                     </div>
-                  </div>
-                  <div className="col-12">
-                    <div className='mb-55'>
-                      <input type="text" id='company' {...register("company")} placeholder="Company Name*" className="single-input-wrapper" />
-                      <ErrorMsg msg={errors.company?.message!} />
+                    <div className="col-12">
+                      <div className="mb-3">
+                        <input
+                          type="text"
+                          {...register("cardNumber")}
+                          placeholder="Card number (16 digits) *"
+                          className="single-input-wrapper"
+                          maxLength={16}
+                        />
+                        <ErrorMsg msg={errors.cardNumber?.message ?? ""} />
+                      </div>
                     </div>
-                  </div>
-                  <div className="col-12">
-                    <div className='mb-55'>
-                      <select className="theme-select-menu" id='country' {...register("country")}>
-                        <option value="">Country*</option>
-                        <option value="usa">USA</option>
-                        <option value="bd">Bangladesh</option>
-                        <option value="in">India</option>
-                        <option value="je">jerman</option>
-                        <option value="sa">saudi arabia</option>
-                        <option value="tu">Turky</option>
-                        <option value="eg">Egypt</option>
-                      </select>
-                      <ErrorMsg msg={errors.country?.message!} />
+                    <div className="col-6">
+                      <div className="mb-3">
+                        <input
+                          type="text"
+                          {...register("cvv")}
+                          placeholder="CVV (3 digits) *"
+                          className="single-input-wrapper"
+                          maxLength={3}
+                        />
+                        <ErrorMsg msg={errors.cvv?.message ?? ""} />
+                      </div>
                     </div>
-                  </div>
-                  <div className="col-12">
-                    <div className='mb-55'>
-                      <input type="text" id='address' {...register("address")} placeholder="Street Address*" className="single-input-wrapper" />
-                      <ErrorMsg msg={errors.address?.message!} />
+                    <div className="col-3">
+                      <div className="mb-3">
+                        <input
+                          type="text"
+                          {...register("expiryMonth")}
+                          placeholder="MM"
+                          className="single-input-wrapper"
+                          maxLength={2}
+                        />
+                        <ErrorMsg msg={errors.expiryMonth?.message ?? ""} />
+                      </div>
                     </div>
-                  </div>
-                  <div className="col-lg-4">
-                    <div className='mb-55'>
-                      <input type="text" id='city' {...register("city")} placeholder="Town/City*" className="single-input-wrapper" />
-                      <ErrorMsg msg={errors.city?.message!} />
-                    </div>
-                  </div>
-                  <div className="col-lg-4">
-                    <div className='mb-55'>
-                      <input type="text" id='state' {...register("state")} placeholder="State*" className="single-input-wrapper" />
-                      <ErrorMsg msg={errors.state?.message!} />
-                    </div>
-                  </div>
-                  <div className="col-lg-4">
-                    <div className='mb-55'>
-                      <input type="text" id='zipCode' {...register("zipCode")} placeholder="Zip Code*" className="single-input-wrapper" />
-                      <ErrorMsg msg={errors.zipCode?.message!} />
-                    </div>
-                  </div>
-                  <div className="col-lg-6">
-                    <input type="email" id='email' {...register("email")} placeholder="Email Address*" className="single-input-wrapper" />
-                    <ErrorMsg msg={errors.email?.message!} />
-                  </div>
-                  <div className="col-lg-6">
-                    <div className='mb-55'>
-                      <input type="text" id='phone' {...register("phone")} placeholder="Phone Number*" className="single-input-wrapper" />
-                      <ErrorMsg msg={errors.phone?.message!} />
-                    </div>
-                  </div>
-                  <div className="col-12">
-                    <ul className="checkbox-list style-none">
-                      <li>
-                        <input type="checkbox" id="new-account" />
-                        <label htmlFor="new-account">Create Account?</label>
-                      </li>
-                      <li>
-                        <input type="checkbox" id="shipping" />
-                        <label htmlFor="shipping">Ship to Different Address?</label>
-                      </li>
-                    </ul>
-                  </div>
-                  <div className="col-12">
-                    <div className="other-note-area">
-                      <p>Order Note (Optional)</p>
-                      <textarea id='orderNote' {...register("orderNote")}></textarea>
+                    <div className="col-3">
+                      <div className="mb-3">
+                        <input
+                          type="text"
+                          {...register("expiryYear")}
+                          placeholder="YY"
+                          className="single-input-wrapper"
+                          maxLength={4}
+                        />
+                        <ErrorMsg msg={errors.expiryYear?.message ?? ""} />
+                      </div>
                     </div>
                   </div>
                 </div>
               </div>
-            </div>
 
-            <div className="col-xxl-4 col-lg-5 ms-auto">
-              <div className="order-confirm-sheet md-mt-60">
-                <h2 className="main-title">Order Details</h2>
-                <div className="order-review">
-                  {/* order review */}
-                  <CheckoutOrderReview/>
-                  {/* order review */}
-                  <div className="payment-option">
-                    <ul className="payment-list style-none">
-                      <li>
-                        <input onChange={() => setOpenPaymentType('direct_bank')} type="radio" name="paymenttype" className={`payment-radio-button ${openPaymentType === 'direct_bank' ? 'active' : ''}`} checked={openPaymentType === 'direct_bank'} />
-                        <label>Direct Bank Transfer</label>
-                        <p>Make your payment directly into our account. Plase use your Order ID as payment reference.</p>
-                      </li>
-                      <li>
-                        <input onChange={() => setOpenPaymentType('paypal')} type="radio" name="paymenttype" className="payment-radio-button" checked={openPaymentType === 'paypal'} />
-                        <label>PayPal</label>
-                      </li>
-                      <li>
-                        <input onChange={() => setOpenPaymentType('credit_card')} type="radio" name="paymenttype" id="credit-card" className="payment-radio-button" checked={openPaymentType === 'credit_card'} />
-                        <label>Credit Card</label>
-                      </li>
-                      <li className={`credit-card-form ${openPaymentType === 'credit_card'?'show':''}`}>
-                        <div className="row">
-                          <div className="col-12">
-                            <h6>Card number</h6>
-                            <input type="text" />
-                          </div>
-                          <div className="col-8">
-                            <h6>Expiry date</h6>
-                            <div className="d-flex align-items-center">
-                              <input type="tel" placeholder="MM" />
-                              <span>/</span>
-                              <input type="tel" placeholder="YY" />
-                            </div>
-                          </div>
-                          <div className="col-4 ml-auto">
-                            <h6>CVV</h6>
-                            <input type="text" />
-                          </div>
-                        </div>
-                      </li>
-                    </ul>
+              <div className="col-xxl-4 col-lg-5 ms-auto">
+                <div className="order-confirm-sheet md-mt-60">
+                  <h2 className="main-title">Order Details</h2>
+                  <div className="order-review">
+                    <CheckoutOrderReview />
+                    <p className="policy-text small mt-3">
+                      Your data is used for this order and as described in our
+                      privacy policy.
+                    </p>
+                    <button
+                      type="submit"
+                      className="btn-ten tran3s w-100 mt-3"
+                      disabled={!canPlaceOrder}
+                    >
+                      Place Order
+                    </button>
                   </div>
-                  <p className="policy-text">Your personal data will be use for your order, support your experience through this website & for other purpose described in our privacy policy</p>
-                  <div className="agreement-checkbox">
-                    <input type="checkbox" id="agreement" />
-                    <label htmlFor="agreement">I have read and agree to the website terms and conditions*</label>
-                  </div>
-                  <button type='submit' className="btn-ten tran3s w-100">Place Order</button>
                 </div>
               </div>
             </div>
-          </div>
-        </form>
+          </form>
+        )}
+
+        <OrderProcessingModal
+          open={showOrderModal}
+          onComplete={onOrderComplete}
+        />
       </div>
     </div>
   );

@@ -4,34 +4,44 @@ import Link from "next/link";
 // internal
 import { IProduct } from "@/types/product-d-t";
 import { useAppDispatch, useAppSelector } from "@/redux/hook";
-import { add_cart_product, quantityDecrement, remove_product } from "@/redux/features/cart";
+import {
+  quantityIncrement,
+  quantityDecrement,
+  remove_product,
+} from "@/redux/features/cart";
 
 const CartItem = () => {
   const { cart_products } = useAppSelector((state) => state.cart);
   const dispatch = useAppDispatch();
-  // handle add cart
-  const handleAddCart = (item: IProduct) => {
-    dispatch(add_cart_product(item));
+  const handleIncrementQuantity = (item: IProduct) => {
+    dispatch(quantityIncrement({ id: item.id }));
   };
-  // handle decrement
   const handleDecrementQuantity = (item: IProduct) => {
     dispatch(quantityDecrement(item));
   };
   // handle remove
   const handleRemove = (item: IProduct) => {
-    dispatch(remove_product({id:item.id,title:item.title}));
+    dispatch(remove_product({ id: item.id, title: item.title }));
   };
   return (
     <>
       {cart_products.map((item, i) => (
         <tr key={i}>
           <td className="product-thumbnails">
-            <Link href="#" className="product-img">
-              <Image src={item.img} alt="cart-img" />
+            <Link href={`/shop-details/${item.id}`} className="product-img">
+              <Image
+                src={typeof item.img === "string" ? item.img : item.img.src}
+                alt={item.title}
+                width={80}
+                height={80}
+                unoptimized={
+                  typeof item.img === "string" && item.img.startsWith("http")
+                }
+              />
             </Link>
           </td>
           <td className="product-info">
-            <Link href="#" className="product-name">
+            <Link href={`/shop-details/${item.id}`} className="product-name">
               {item.title}
             </Link>
             <div className="serial">#859632007881</div>
@@ -46,7 +56,12 @@ const CartItem = () => {
           <td className="quantity">
             <ul className="order-box style-none">
               <li>
-                <div onClick={()=> handleDecrementQuantity(item)} className="btn value-decrease">-</div>
+                <div
+                  onClick={() => handleDecrementQuantity(item)}
+                  className="btn value-decrease"
+                >
+                  -
+                </div>
               </li>
               <li>
                 <input
@@ -57,7 +72,12 @@ const CartItem = () => {
                 />
               </li>
               <li>
-                <div onClick={()=> handleAddCart(item)} className="btn value-increase">+ </div>
+                <div
+                  onClick={() => handleIncrementQuantity(item)}
+                  className="btn value-increase"
+                >
+                  +
+                </div>
               </li>
             </ul>
           </td>
@@ -65,7 +85,10 @@ const CartItem = () => {
             <span>${item.price * (item.orderQuantity as number)}</span>
           </td>
           <td>
-            <a onClick={()=> handleRemove(item)} className="remove-product cursor-pointer">
+            <a
+              onClick={() => handleRemove(item)}
+              className="remove-product cursor-pointer"
+            >
               x
             </a>
           </td>

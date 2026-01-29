@@ -1,16 +1,16 @@
-import React from 'react';
-import Link from 'next/link';
-import Image from 'next/image';
+import React from "react";
+import Link from "next/link";
+import Image from "next/image";
 // internal
-import screen_1 from '@/assets/images/assets/screen_22.svg';
-import screen_2 from '@/assets/images/assets/screen_23.png';
-import shape_1 from '@/assets/images/shape/shape_43.svg';
-import shape_2 from '@/assets/images/shape/shape_42.svg';
-import PartnersSliderOne from '../partners/partners-slider-one';
+import screen_1 from "@/assets/images/assets/screen_22.svg";
+import screen_2 from "@/assets/images/assets/screen_23.png";
+import shape_1 from "@/assets/images/shape/shape_43.svg";
+import shape_2 from "@/assets/images/shape/shape_42.svg";
+import PartnersSliderOne from "../partners/partners-slider-one";
 
 // img style
 const imgStyle = {
-  height: 'auto',
+  height: "auto",
 };
 
 const HeroBannerSix = () => {
@@ -34,8 +34,8 @@ const HeroBannerSix = () => {
                 >
                   Contact
                 </Link>
-                <Link href="/contact" className="btn-nineteen tran3s mt-10">
-                  Let’s Get Started
+                <Link href="/#products" className="btn-nineteen tran3s mt-10">
+                  Shop Products
                 </Link>
               </div>
             </div>

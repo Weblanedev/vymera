@@ -2,12 +2,11 @@ import React from "react";
 import { Metadata } from "next";
 import dynamic from "next/dynamic";
 import Wrapper from "@/layout/wrapper";
-import HeaderOne from "@/layout/header/header-one";
+import HeaderThree from "@/layout/header/header-three";
 import FooterThree from "@/layout/footer/footer-three";
 import FancyBannerThree from "@/components/fancy-banner/fancy-banner-three";
 import NewsletterBanner from "@/components/newsletter/newsletter-banner";
 import CartArea from "@/components/cart/cart-area";
-
 
 export const metadata: Metadata = {
   title: "Cart Page",
@@ -18,7 +17,7 @@ const CartPage = () => {
     <Wrapper>
       <div className="main-page-wrapper">
         {/* header start */}
-        <HeaderOne />
+        <HeaderThree />
         {/* header end */}
         <main>
           {/* cart area start */}

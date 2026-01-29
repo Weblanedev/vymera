@@ -15,15 +15,18 @@ const CartArea = () => {
 
   useEffect(() => {
     if (typeof window !== "undefined" && window.localStorage) {
-      dispatch(getCartProducts())
+      dispatch(getCartProducts());
     }
   }, [dispatch]);
-  
+
   let content =
-   cart_products.length === 0 ? (
+    cart_products.length === 0 ? (
       <div className="text-center pt-50">
         <h3>No Cart Items Found</h3>
-        <Link href="/shop" className="btn-ten tran3s update-cart-button mt-20">
+        <Link
+          href="/#products"
+          className="btn-ten tran3s update-cart-button mt-20"
+        >
           Continue Shipping
         </Link>
       </div>
@@ -50,12 +53,12 @@ const CartArea = () => {
 
         <div className="d-sm-flex justify-content-between cart-footer">
           <div className="coupon-section d-flex flex-column">
-            <form className="coupon-form d-lg-flex align-items-center">
+            {/* <form className="coupon-form d-lg-flex align-items-center">
               <input type="text" placeholder="Enter your code" />
               <button className="btn-ten tran3s md-mt-20 xs-mb-20">
                 Apply Coupon
               </button>
-            </form>
+            </form> */}
             <div className="mt-auto">
               <button
                 onClick={() => dispatch(clearCart())}

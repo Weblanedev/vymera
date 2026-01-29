@@ -1,7 +1,7 @@
 import React from "react";
 import { Metadata } from "next";
 import Wrapper from "@/layout/wrapper";
-import HeaderTwo from "@/layout/header/header-two";
+import HeaderThree from "@/layout/header/header-three";
 import BreadcrumbOne from "@/components/breadcrumb/breadcrumb-one";
 import FooterThree from "@/layout/footer/footer-three";
 import testi_bg from "@/assets/images/media/img_32.jpg";
@@ -22,7 +22,7 @@ const TestimonialPage = () => {
     <Wrapper>
       <div className="main-page-wrapper">
         {/* header start */}
-        <HeaderTwo />
+        <HeaderThree />
         {/* header end */}
         <main>
           {/* breadcrumb start */}
@@ -50,7 +50,10 @@ const TestimonialPage = () => {
           {/* testimonial five area end */}
 
           {/* testimonial three area start */}
-          <FeedbackThree spacing="pt-180 lg-pt-100 pb-180 md-pb-80" bottom_slider={false} />
+          <FeedbackThree
+            spacing="pt-180 lg-pt-100 pb-180 md-pb-80"
+            bottom_slider={false}
+          />
           {/* testimonial three area end */}
 
           {/* fancy banner three start */}

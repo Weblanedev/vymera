@@ -1,7 +1,7 @@
 import React from "react";
 import { Metadata } from "next";
 import Wrapper from "@/layout/wrapper";
-import HeaderOne from "@/layout/header/header-one";
+import HeaderThree from "@/layout/header/header-three";
 import FancyBannerThree from "@/components/fancy-banner/fancy-banner-three";
 import BreadcrumbTwo from "@/components/breadcrumb/breadcrumb-two";
 import FooterTwo from "@/layout/footer/footer-two";
@@ -16,7 +16,7 @@ const BlogGridPage = () => {
     <Wrapper>
       <div className="main-page-wrapper">
         {/* header start */}
-        <HeaderOne />
+        <HeaderThree />
         {/* header end */}
         <main>
           {/* breadcrumb start */}

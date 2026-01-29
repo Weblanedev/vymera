@@ -82,7 +82,7 @@ const menu_data: IMenu[] = [
   // },
   {
     id: 5,
-    link: '/#products',
+    link: '/shop',
     title: 'Products',
   },
   {

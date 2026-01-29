@@ -71,14 +71,14 @@
         color: $heading;
     }
     blockquote {
-        color: #0E3F30;
+        color: $color-three;
         margin: 24px 0 43px;
     }
     .bottom-line {
         border-top: 1px solid #E1E2E2;
         padding-top: 24px;
         .rating li {
-            color: #FFCC4A;
+            color: $color-one;
             margin-right: 5px;
             font-size: 18px;
         }
@@ -187,7 +187,7 @@
     border-radius: 20px;
     padding: 35px 48px 35px;
     .rating li {
-        color: #FFCC4A;
+        color: $color-one;
         margin-right: 6px;
         font-size: 18px;
     }
@@ -201,12 +201,12 @@
     blockquote {
         font-size: 28px;
         line-height: 1.571em;
-        color: #0E3F30;
+        color: $color-three;
         margin: 37px 0 52px;
     }
     &:hover {
-        background: #F8FCF4;
-        border-color: #F8FCF4;
+background: $light-bg-one;
+    border-color: $light-bg-one;
     }
 }
 // FeedBack Section Five

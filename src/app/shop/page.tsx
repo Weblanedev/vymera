@@ -1,7 +1,7 @@
 import React from "react";
 import { Metadata } from "next";
 import Wrapper from "@/layout/wrapper";
-import HeaderTwo from "@/layout/header/header-two";
+import HeaderThree from "@/layout/header/header-three";
 import BreadcrumbOne from "@/components/breadcrumb/breadcrumb-one";
 import FooterThree from "@/layout/footer/footer-three";
 import shop_bg from "@/assets/images/media/img_47.jpg";
@@ -19,7 +19,7 @@ const ShopPage = () => {
     <Wrapper>
       <div className="main-page-wrapper">
         {/* header start */}
-        <HeaderTwo />
+        <HeaderThree />
         {/* header end */}
         <main>
           {/* breadcrumb start */}

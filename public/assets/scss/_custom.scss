@@ -1,4 +1,10 @@
-@media (max-width: 568px) { 
+// Cart icon badge - Jumia orange (replaces Bootstrap bg-primary)
+.cart-count-badge {
+  background-color: $color-one !important;
+  color: #fff;
+}
+
+@media (max-width: 568px) {
   .hero-banner-two .shape_02 {
     top: 42%;
   }
@@ -9,8 +15,8 @@
     margin: 0 15px;
   }
 }
-.partner-slider-one{
-  & .slick-slide{
+.partner-slider-one {
+  & .slick-slide {
     margin: 0;
   }
 }
@@ -21,27 +27,27 @@
       margin: 0 0px;
     }
   }
-  .slick-track{
+  .slick-track {
     display: flex;
   }
 }
 
-.feedback-section-six{
-  & .feedback-slider-five{
+.feedback-section-six {
+  & .feedback-slider-five {
     overflow: hidden;
   }
 }
 
 .pagination-one {
-  & ul{
-    & li.disabled{
+  & ul {
+    & li.disabled {
       display: none;
     }
   }
 }
 
-.hero-banner-one{
-  & .hero-slider-one{
+.hero-banner-one {
+  & .hero-slider-one {
     & .slick-slide {
       & > div {
         height: 100%;

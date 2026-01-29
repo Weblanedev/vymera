@@ -95,7 +95,7 @@ hr {
   font-family: $magnita;
 }
 .light-bg-page-wrapper {
-  background: #edf8eb;
+  background: $light-bg-one;
 }
 .color-deep {
   color: $color-eight;
@@ -204,7 +204,7 @@ hr {
   &:after {
     position: absolute;
     z-index: -1;
-    content: '';
+    content: "";
     top: 100%;
     left: 5%;
     height: 10px;
@@ -346,7 +346,7 @@ hr {
     margin-left: 45px;
     position: relative;
     &:before {
-      content: '';
+      content: "";
       position: absolute;
       width: 30px;
       height: 2px;
@@ -427,7 +427,7 @@ hr {
       width: 30px;
     }
     &:before {
-      content: '';
+      content: "";
       position: absolute;
       width: 26px;
       height: 2px;
@@ -524,7 +524,7 @@ hr {
   background: #fff;
   &:before {
     position: absolute;
-    content: '';
+    content: "";
     top: -14px;
     height: 14px;
     width: calc(100% + 3px);
@@ -535,7 +535,7 @@ hr {
   }
   &:after {
     position: absolute;
-    content: '';
+    content: "";
     right: -16px;
     height: calc(100% + 1px);
     width: 15px;
@@ -554,7 +554,7 @@ hr {
   padding: 0 30px;
   line-height: 55px;
   border-radius: 40px;
-  background: #ffe86b;
+  background: $color-one;
   i {
     margin-left: 8px;
   }
@@ -598,7 +598,7 @@ hr {
   padding: 0 45px;
   text-align: center;
   border-radius: 40px;
-  color: #1f5e59;
+  color: $color-three;
   min-width: 175px;
   background-color: $color-nine;
   @include transition(0.3s);
@@ -612,7 +612,7 @@ hr {
   .upper-title {
     font-weight: 500;
     margin-bottom: 14px;
-    color: #46846a;
+    color: $color-two;
   }
   h2 {
     font-weight: 700;
@@ -622,7 +622,7 @@ hr {
   .upper-title {
     font-weight: 500;
     margin-bottom: 5px;
-    color: #1ca161;
+    color: $color-two;
   }
   h2 {
     font-size: 72px;
@@ -641,7 +641,7 @@ hr {
     font-size: 14px;
     text-transform: uppercase;
     margin-bottom: 15px;
-    color: #1ca161;
+    color: $color-two;
   }
   h2 {
     font-weight: 700;

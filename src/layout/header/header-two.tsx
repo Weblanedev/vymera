@@ -1,18 +1,21 @@
-'use client'
+"use client";
 import React from "react";
 import Image from "next/image";
 import Link from "next/link";
 // internal
 import Navbar from "./navbar";
-import logo from '@/assets/images/logo/logo_01.svg'
+import logo from "@/assets/images/logo/logo_01.svg";
 import useSticky from "@/hooks/use-sticky";
 import LoginModal from "@/components/common/login-modal";
+import CartIconBadge from "@/components/common/cart-icon-badge";
 
 const HeaderTwo = () => {
-  const {sticky} = useSticky();
+  const { sticky } = useSticky();
   return (
     <>
-      <header className={`theme-main-menu menu-overlay menu-style-one white-vr sticky-menu ${sticky?'fixed':''}`}>
+      <header
+        className={`theme-main-menu menu-overlay menu-style-one white-vr sticky-menu ${sticky ? "fixed" : ""}`}
+      >
         <div className="inner-content position-relative">
           <div className="top-header">
             <div className="d-flex align-items-center justify-content-between">
@@ -24,6 +27,7 @@ const HeaderTwo = () => {
 
               <div className="right-widget ms-auto ms-lg-0 me-3 me-lg-0 order-lg-3">
                 <ul className="d-flex align-items-center style-none">
+                  <CartIconBadge />
                   <li className="d-none d-md-block">
                     <Link href="/contact" className="btn-one tran3s">
                       Get in Touch
@@ -55,7 +59,7 @@ const HeaderTwo = () => {
       </header>
 
       {/* login modal start */}
-      <LoginModal/>
+      <LoginModal />
       {/* login modal end */}
     </>
   );
